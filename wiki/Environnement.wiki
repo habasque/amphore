@@ -1,0 +1,9 @@
+#summary Environnement requis.
+
+* R 2-10.1
+* Rtools
+* OpenOffice
+
+ 
+
+ 
