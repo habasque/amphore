@@ -1,5 +1,5 @@
 ################################################################################ 
-## Programme principal de calcul des indicateurs bio-écologiques 
+## Programme principal de calcul des indicateurs bio-Ã©cologiques 
 ## Nantes Mars 2011, ABA
 ##        Avril 2011 LTdM
 ##        Aout->Decembre 2011, JHA
@@ -76,7 +76,7 @@
   indice_Time2 <- 16
 
   #definition du repertoire des scripts et sous-scripts avant source
-  repertoire_scripts=tclvalue(tkchooseDirectory(title="Sélectionnez le répertoire de travail où se trouvent les programmes.", initialdir=getwd()))
+  repertoire_scripts=tclvalue(tkchooseDirectory(title="SÃ©lectionnez le rÃ©pertoire de travail oÃ¹ se trouvent les programmes.", initialdir=getwd()))
   setwd(repertoire_scripts)
 
   #source(list.files(pattern=".r"))
@@ -144,7 +144,7 @@ initialisation.f <- function() {
   #assign("ANALYSE_EN_COURS",ANALYSE_EN_COURS,envir=.GlobalEnv)     
 }  
 # fonction de creation de table de contingence
-# (densité d'espèce par trait*année) pour le calcul de diversité
+# (densitÃ© d'espÃ¨ce par trait*annÃ©e) pour le calcul de diversitÃ©
 contingence.fct <- function(matrice_captures) {
    contingence = tapply(matrice_captures$Nombre,list(matrice_captures$Trait,matrice_captures$Espece),na.rm=TRUE,sum)
    contingence[is.na(contingence)] = 0
@@ -181,7 +181,7 @@ scenario.f <- function(ind, fact) {
        
 ################################################################################
 ## Nom     : saisie_nom_site.f
-## Objet   : saisie du nom du site traite, il sera ensuite utilisé pour les noms de fichiers de resultats
+## Objet   : saisie du nom du site traite, il sera ensuite utilisÃ© pour les noms de fichiers de resultats
 ## Input   :  
 ## Output  :  
 ################################################################################
@@ -210,13 +210,13 @@ saisie_nom_site.f = function() {
 
 ################################################################################
 ## Nom     : choixRepertoireSortie.f
-## Objet   : choix du répertoire de stockage des résultats par l'utilisateur
+## Objet   : choix du rÃ©pertoire de stockage des rÃ©sultats par l'utilisateur
 ## Input   :  
 ## Output  :  
 ################################################################################
 
 choixRepertoireSortie.f = function() {
-    repertoire_resultats=tclvalue(tkchooseDirectory(title="Sélectionnez le répertoire où seront stockés les résultats", initialdir=getwd()))
+    repertoire_resultats=tclvalue(tkchooseDirectory(title="SÃ©lectionnez le rÃ©pertoire oÃ¹ seront stockÃ©s les rÃ©sultats", initialdir=getwd()))
     setwd(repertoire_resultats)
     assign("repertoire_resultats",repertoire_resultats,envir=.GlobalEnv)           
 }
@@ -226,14 +226,14 @@ choixRepertoireSortie.f = function() {
 ## Objet   : importation des donnees, 
 ##           choix du repertoire de resultats, 
 ##           verification des fichiers / donnees
-##           ecriture du rapport de description des données
+##           ecriture du rapport de description des donnÃ©es
 ## Input   :  
 ## Output  :  
 ################################################################################
 
 import_Donnees.f = function() {
     initialisation.f()
-    repertoire_donnees=tclvalue(tkchooseDirectory(title="Sélectionnez le répertoire de travail où se trouvent les données de campagne.", initialdir=getwd()))
+    repertoire_donnees=tclvalue(tkchooseDirectory(title="SÃ©lectionnez le rÃ©pertoire de travail oÃ¹ se trouvent les donnÃ©es de campagne.", initialdir=getwd()))
     setwd(repertoire_donnees)
     assign("repertoire_donnees",repertoire_donnees,envir=.GlobalEnv)               
     IMPORTATION_FICHIERS <- "O"
@@ -243,16 +243,16 @@ import_Donnees.f = function() {
     #choixRepertoireSortie.f() #choix du repertoire de stockage des resultats
     #tkwm.deiconify(tm) 
     tkdelete(txt_principal, "1.0", "end")        
-    tkinsert(txt_principal,"end","Import des données en cours...")  
+    tkinsert(txt_principal,"end","Import des donnÃ©es en cours...")  
     tkconfigure(tm,cursor="watch")    
     lecture_fichiers.f()   
     verification_fichiers.f()    
     
     if (format_fichiers_OK=="O") {
        tkdelete(txt_principal, "1.0", "end")    
-       tkinsert(txt_principal,"end","Importation réussie !")    
+       tkinsert(txt_principal,"end","Importation rÃ©ussie !")    
        tkconfigure(tm,cursor="arrow")         
-    #   tkmessageBox(message="Importation réussie",icon="warning",type="ok") 
+    #   tkmessageBox(message="Importation rÃ©ussie",icon="warning",type="ok") 
     }
     tkwm.deiconify(tm)  
     test_difference_interannuelle.f(capt)
@@ -261,7 +261,7 @@ import_Donnees.f = function() {
     if (! paste("Description_", nom_Jeu_De_Donnees,".odt", sep="") %in% list.files(repertoire_donnees)) {          
        odfWeave(paste(repertoire_modele,"/modele_description_jeu_de_donnees.odt",sep=""),paste(repertoire_donnees,"/Description_", nom_Jeu_De_Donnees,".odt",sep=""))              
     } else {
-       tkmessageBox(message="ATTENTION, le rapport de description existe déjà",icon="warning",type="ok")        
+       tkmessageBox(message="ATTENTION, le rapport de description existe dÃ©jÃ ",icon="warning",type="ok")        
     } 
     tkwm.deiconify(tm)  
     transformation_ligne_individu.f()      
@@ -280,7 +280,7 @@ Avant_Apres.f = function() {
   choix_Annee_Mise_En_Reserve.f() 
   ANNEE_MISE_EN_RESERVE <- as.numeric(ANNEE_MISE_EN_RESERVE)  	 
 
-#si l'année de mise en réserve est supérieure ou égale à l'année d'échantillonnage la plus ancienne
+#si l'annÃ©e de mise en rÃ©serve est supÃ©rieure ou Ã©gale Ã  l'annÃ©e d'Ã©chantillonnage la plus ancienne
 if (ANNEE_MISE_EN_RESERVE >= min(trait$Annee)) {  
   
   # Separation des fichiers before and after
@@ -333,14 +333,14 @@ if (ANNEE_MISE_EN_RESERVE >= min(trait$Annee)) {
   listeEspecesManquantes <- subset(Ltot, ! Ltot %in% listeEspecesCommunesCapt)  
   assign("listeEspecesManquantes",listeEspecesManquantes,envir=.GlobalEnv)
 
-# test que les 2 jeux de données contiennent bien des données
+# test que les 2 jeux de donnÃ©es contiennent bien des donnÃ©es
   if (length(unique(capt_Un$Annee))!=0 && length(unique(capt_Deux$Annee))!=0) {
 
      if (length(unique(capt_Un$Annee))==1){
-        print("Une seule année présente dans le jeu de données Before")
+        print("Une seule annÃ©e prÃ©sente dans le jeu de donnÃ©es Before")
      }
      if (length(unique(capt_Deux$Annee))==1){
-        print("Une seule année présente dans le jeu de données After")  
+        print("Une seule annÃ©e prÃ©sente dans le jeu de donnÃ©es After")  
      }
 
      titre <- paste(SITE_ETUDIE,"- Avant_Apres - ",ANNEE_MISE_EN_RESERVE)     
@@ -371,7 +371,7 @@ if (ANNEE_MISE_EN_RESERVE >= min(trait$Annee)) {
 
      nom_Fichier_Sortie <- paste(titre,"_mois_",toString(MOIS_ETUDIES),".odt", sep="")
      
-     tkinsert(txt_principal, "end", "Calcul des indicateurs terminé")     
+     tkinsert(txt_principal, "end", "Calcul des indicateurs terminÃ©")     
      tkdelete(txt_principal, "1.0", "end")                 
      tkconfigure(tm,cursor="arrow")                 
      tkinsert(txt_principal, "end", "Ecriture du rapport en cours...")   
@@ -381,18 +381,18 @@ if (ANNEE_MISE_EN_RESERVE >= min(trait$Annee)) {
         if (! paste("Resultats_Peche_", nom_Fichier_Sortie, sep="") %in% list.files()) {        
            odfWeave(paste(repertoire_modele,"/modele_peche_avant_apres.odt",sep=""),paste("Resultats_Peche_", nom_Fichier_Sortie,sep=""))         
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")            
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")            
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }           
      } else {     
         Radar_Plot_Conservation.f(capt_Un.mat, capt_Deux.mat, capt2, size2, titre)        
         if (! paste("Resultats_Conservation_", nom_Fichier_Sortie, sep="") %in% list.files()) {                
            odfWeave(paste(repertoire_modele,"/modele_conservation_avant_apres.odt",sep=""),paste("Resultats_Conservation_", nom_Fichier_Sortie,sep=""))         
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")             
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")             
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }        
      }  
      dev.off() 
@@ -406,7 +406,7 @@ if (ANNEE_MISE_EN_RESERVE >= min(trait$Annee)) {
 
 ################################################################################
 ## Nom     : T1_T2.f
-## Objet   : comparaison du groupe d'années T1 au groupe d'années T2 
+## Objet   : comparaison du groupe d'annÃ©es T1 au groupe d'annÃ©es T2 
 ## Input   :  
 ## Output  :  
 ################################################################################ 
@@ -415,7 +415,7 @@ T1_T2.f = function() {
   #selection des 2 annees a comparer
   choixDeuxGroupesAnnees.f()
       	   
-  # Selection des donnees du groupe d'années 1 et du groupe d'années 2
+  # Selection des donnees du groupe d'annÃ©es 1 et du groupe d'annÃ©es 2
   capt_Un <- data.frame(capt_orig[capt_orig$Annee %in% GROUPE_ANNEES_1,])
   capt_Deux <- data.frame(capt_orig[capt_orig$Annee %in% GROUPE_ANNEES_2,])	   
   	   
@@ -494,7 +494,7 @@ T1_T2.f = function() {
  
      nom_Fichier_Sortie <- paste(titre,".odt", sep="")
 
-     tkinsert(txt_principal, "end", "Calcul des indicateurs terminé")     
+     tkinsert(txt_principal, "end", "Calcul des indicateurs terminÃ©")     
      tkdelete(txt_principal, "1.0", "end")                 
      tkconfigure(tm,cursor="arrow")                
      tkinsert(txt_principal, "end", "Ecriture du rapport en cours...")    
@@ -504,18 +504,18 @@ T1_T2.f = function() {
         if (! paste("Resultats_Peche_", nom_Fichier_Sortie, sep="") %in% list.files()) {
            odfWeave(paste(repertoire_modele,"/modele_peche_T1_T2.odt",sep=""),paste("Resultats_Peche_", nom_Fichier_Sortie, sep=""))         
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")             
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")             
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }
      } else {          
         Radar_Plot_Conservation.f(capt_Un.mat, capt_Deux.mat, capt2, size2, titre)
         if (! paste("Resultats_Conservation_", nom_Fichier_Sortie, sep="") %in% list.files()) {        
            odfWeave(paste(repertoire_modele,"/modele_conservation_T1_T2.odt",sep=""),paste("Resultats_Conservation_", nom_Fichier_Sortie,sep=""))         
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")             
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")             
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }           
      }
      dev.off() 
@@ -540,7 +540,7 @@ if (length(unique(trait$Annee))> 2) {
   #selection des 3 groupes d'annees a comparer
   choixTroisGroupesAnnees.f()
   	   
-  # Selection des donnees des groupes d'années 1, 2 et 3
+  # Selection des donnees des groupes d'annÃ©es 1, 2 et 3
   capt_Un <- data.frame(capt_orig[capt_orig$Annee %in% GROUPE_ANNEES_1,])
   capt_Deux <- data.frame(capt_orig[capt_orig$Annee %in% GROUPE_ANNEES_2,])  
   capt_Trois <- data.frame(capt_orig[capt_orig$Annee %in% GROUPE_ANNEES_3,])
@@ -628,7 +628,7 @@ if (length(unique(trait$Annee))> 2) {
 
      nom_Fichier_Sortie <- paste(SITE_ETUDIE,"_",toString(GROUPE_ANNEES_1),"_vs_",toString(GROUPE_ANNEES_2),"_vs_",toString(GROUPE_ANNEES_3),"_mois_",toString(MOIS_ETUDIES),".odt", sep="")
      
-     tkinsert(txt_principal, "end", "Calcul des indicateurs terminé")     
+     tkinsert(txt_principal, "end", "Calcul des indicateurs terminÃ©")     
      tkdelete(txt_principal, "1.0", "end")                 
      tkconfigure(tm,cursor="arrow")               
      tkinsert(txt_principal, "end", "Ecriture du rapport en cours...")        
@@ -638,18 +638,18 @@ if (length(unique(trait$Annee))> 2) {
         if (! paste("Resultats_Peche_", nom_Fichier_Sortie, sep="") %in% list.files()) {
            odfWeave(paste(repertoire_modele,"/modele_peche_T1_T2_T3.odt",sep=""),paste("Resultats_Peche_", nom_Fichier_Sortie,sep=""))         
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")             
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")             
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }        
      } else {
         Radar_Plot_Conservation_3grp.f(capt_Un.mat, capt_Deux.mat, capt_Trois.mat, capt3, size3, titre)
         if (! paste("Resultats_Conservation_", nom_Fichier_Sortie, sep="") %in% list.files()) {        
            odfWeave(paste(repertoire_modele,"/modele_conservation_T1_T2_T3.odt",sep=""),paste("Resultats_Conservation_", nom_Fichier_Sortie,sep=""))         
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")             
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")             
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }               
      }
      dev.off()
@@ -657,7 +657,7 @@ if (length(unique(trait$Annee))> 2) {
        tkmessageBox(message="ATTENTION, un des 3 jeux de donnees est vide.",icon="warning",type="ok")
   } 
   } else {
-       tkmessageBox(message="Analyse impossible, aucun mois commun aux 3 jeux de données.",icon="warning",type="ok")
+       tkmessageBox(message="Analyse impossible, aucun mois commun aux 3 jeux de donnÃ©es.",icon="warning",type="ok")
   }    
   } else {
        tkmessageBox(message="Analyse impossible, votre jeu de donnees doit contenir au moins 2 annees.",icon="warning",type="ok")
@@ -691,8 +691,8 @@ if (length(unique(trait$Strate))>1) {
       
 # Separation des fichiers int et ext  
   
-   # Strate 1 : intérieur de l'AMP 
-   # Strate 2 : extérieur de l'AMP    
+   # Strate 1 : intÃ©rieur de l'AMP 
+   # Strate 2 : extÃ©rieur de l'AMP    
    capt_Un <-  data.frame(capt[capt$Strate==1,])
    assign("capt_Un",capt_Un,envir=.GlobalEnv)
    capt_Deux <-  data.frame(capt[capt$Strate==2,])
@@ -740,10 +740,10 @@ if (length(unique(trait$Strate))>1) {
    if (length(unique(capt_Un$Annee))!=0 && length(unique(capt_Deux$Annee))!=0) {
      
      if (length(unique(capt_Un$Annee))==1){
-        print("Une seule année présente dans le jeu de données Interieur")
+        print("Une seule annÃ©e prÃ©sente dans le jeu de donnÃ©es Interieur")
      }
      if (length(unique(capt_Deux$Annee))==1){
-        print("Une seule année présente dans le jeu de données Exterieur")  
+        print("Une seule annÃ©e prÃ©sente dans le jeu de donnÃ©es Exterieur")  
      } 
         
      titre1 <- "Interieur"
@@ -774,7 +774,7 @@ if (length(unique(trait$Strate))>1) {
     
      nom_Fichier_Sortie <- paste(SITE_ETUDIE,"_Interieur_Exterieur_",toString(GROUPE_ANNEES_1),"_mois_",toString(MOIS_ETUDIES),".odt", sep="")
      
-     tkinsert(txt_principal, "end", "Calcul des indicateurs terminé")     
+     tkinsert(txt_principal, "end", "Calcul des indicateurs terminÃ©")     
      tkdelete(txt_principal, "1.0", "end")                 
      tkconfigure(tm,cursor="arrow")  
      tkinsert(txt_principal, "end", "Ecriture du rapport en cours...")        
@@ -784,18 +784,18 @@ if (length(unique(trait$Strate))>1) {
         if (! paste("Resultats_Peche_", nom_Fichier_Sortie, sep="") %in% list.files()) {          
            odfWeave(paste(repertoire_modele,"/modele_peche_Int_Ext.odt",sep=""),paste("Resultats_Peche_", nom_Fichier_Sortie,sep=""))         
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")             
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")             
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }    
      } else {     
         Radar_Plot_Conservation_Spatial.f(capt_Un.mat, capt_Deux.mat, capt2, size2, titre)
         if (! paste("Resultats_Conservation_", nom_Fichier_Sortie, sep="") %in% list.files()) {                  
            odfWeave(paste(repertoire_modele,"/modele_conservation_Int_Ext.odt",sep=""),paste("Resultats_Conservation_", nom_Fichier_Sortie,sep=""))          
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")             
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")             
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }            
      }          
      dev.off()
@@ -834,9 +834,9 @@ if (length(unique(trait$Strate))>2) {
    
 # Separation des donnees en 3 strates  
   
-   # Strate 1 : intérieur de l'AMP 
-   # Strate 2 : extérieur proche de l'AMP    
-   # Strate 3 : extérieur lointain de l'AMP    
+   # Strate 1 : intÃ©rieur de l'AMP 
+   # Strate 2 : extÃ©rieur proche de l'AMP    
+   # Strate 3 : extÃ©rieur lointain de l'AMP    
    capt_Un <-  data.frame(capt[capt$Strate==1,])
    assign("capt_Un",capt_Un,envir=.GlobalEnv)
    capt_Deux <-  data.frame(capt[capt$Strate==2,])
@@ -890,13 +890,13 @@ if (length(unique(trait$Strate))>2) {
    if (length(unique(capt_Un$Annee))!=0 && length(unique(capt_Deux$Annee))!=0 && length(unique(capt_Trois$Annee))!=0) {
      
      if (length(unique(capt_Un$Annee))==1){
-        print("Une seule année présente dans le jeu de données Interieur")
+        print("Une seule annÃ©e prÃ©sente dans le jeu de donnÃ©es Interieur")
      }
      if (length(unique(capt_Deux$Annee))==1){
-        print("Une seule année présente dans le jeu de données Exterieur proche")  
+        print("Une seule annÃ©e prÃ©sente dans le jeu de donnÃ©es Exterieur proche")  
      } 
      if (length(unique(capt_Trois$Annee))==1){
-        print("Une seule année présente dans le jeu de données Exterieur lointain")  
+        print("Une seule annÃ©e prÃ©sente dans le jeu de donnÃ©es Exterieur lointain")  
      } 
         
      titre1 <- "Interieur"
@@ -927,7 +927,7 @@ if (length(unique(trait$Strate))>2) {
     
      nom_Fichier_Sortie <- paste(SITE_ETUDIE,"_Gradient_",toString(GROUPE_ANNEES_1),"_mois_",toString(MOIS_ETUDIES),".odt", sep="")
      
-     tkinsert(txt_principal, "end", "Calcul des indicateurs terminé")     
+     tkinsert(txt_principal, "end", "Calcul des indicateurs terminÃ©")     
      tkdelete(txt_principal, "1.0", "end")                 
      tkconfigure(tm,cursor="arrow")                
      tkinsert(txt_principal, "end", "Ecriture du rapport en cours...")        
@@ -942,18 +942,18 @@ if (length(unique(trait$Strate))>2) {
         if (! paste("Resultats_Peche_", nom_Fichier_Sortie, sep="") %in% list.files()) {        
            odfWeave(paste(repertoire_modele,"/modele_peche_Gradient.odt",sep=""),paste("Resultats_Peche_", nom_Fichier_Sortie,sep=""))         
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")             
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")             
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }            
      } else {      
         Radar_Plot_Conservation_Gradient.f(capt_Un.mat, capt_Deux.mat, capt_Trois.mat, capt3, size3, titre)
         if (! paste("Resultats_Conservation_", nom_Fichier_Sortie, sep="") %in% list.files()) {                
            odfWeave(paste(repertoire_modele,"/modele_conservation_Gradient.odt",sep=""),paste("Resultats_Conservation_", nom_Fichier_Sortie,sep=""))          
            tkdelete(txt_principal, "1.0", "end")            
-           tkinsert(txt_principal, "end", "Ecriture terminée")             
+           tkinsert(txt_principal, "end", "Ecriture terminÃ©e")             
         } else {
-           tkmessageBox(message="ATTENTION, ce rapport existe déjà",icon="warning",type="ok")        
+           tkmessageBox(message="ATTENTION, ce rapport existe dÃ©jÃ ",icon="warning",type="ok")        
         }            
      }
      dev.off()              
@@ -972,7 +972,7 @@ if (length(unique(trait$Strate))>2) {
 ## Output  :  
 ################################################################################ 
 aide.f = function() {
-    tkmessageBox(message="Pour toute question relative au fonctionnement de l'application écrire un message à jeremie.habasque@gmail.com",type="ok")
+    tkmessageBox(message="Pour toute question relative au fonctionnement de l'application Ã©crire un message Ã  jeremie.habasque@gmail.com",type="ok")
 }
 ################################################################################
 ## Nom     :  
@@ -1204,7 +1204,7 @@ if (IMPORTATION_FICHIERS == "O") {
 tm <- tktoplevel(height=500,width=800)
 topMenu <- tkmenu(tm)
 tkconfigure(tm,menu=topMenu)
-tkwm.title(tm,"Amphore - Analyse des indicateurs bio-écologiques")
+tkwm.title(tm,"Amphore - Analyse des indicateurs bio-Ã©cologiques")
 
 fontHeading <- tkfont.create(family="times",size=24,weight="bold",slant="italic")
 fontTextLabel <- tkfont.create(family="times",size=12)
@@ -1235,21 +1235,21 @@ ConservationSpatiale <- tkmenu(topMenu,tearoff=FALSE)
 ##Troisieme niveau de menu
 
   # Menu deroulant de "spatiale" 
-  tkadd(PecheSpatiale,"command",label="Interieur vs Extérieur", command = Interieur_Exterieur_Peche.f)
+  tkadd(PecheSpatiale,"command",label="Interieur vs ExtÃ©rieur", command = Interieur_Exterieur_Peche.f)
   tkadd(PecheSpatiale,"command",label="Gradient", command = Gradient_Peche.f)
-  tkadd(ConservationSpatiale,"command",label="Interieur vs Extérieur", command = Interieur_Exterieur_Conservation.f)
+  tkadd(ConservationSpatiale,"command",label="Interieur vs ExtÃ©rieur", command = Interieur_Exterieur_Conservation.f)
   tkadd(ConservationSpatiale,"command",label="Gradient", command = Gradient_Conservation.f)  
   
   # Menu deroulant de "PecheTemporelle" 
-  tkadd(PecheTemporelle,"command",label="Avant vs Après", command = Avant_Apres_Peche.f)
-  tkadd(PecheTemporelle,"command",label="T1 vs T2", command = T1_T2_Peche.f)
-  tkadd(PecheTemporelle,"command",label="T1 vs T2 vs T3", command = T1_T2_T3_Peche.f)  
-  tkadd(PecheTemporelle,"command",label="Série Temporelle", command = Serie_Temporelle_Peche.f)
+  tkadd(PecheTemporelle,"command",label="Avant vs AprÃ¨s", command = Avant_Apres_Peche.f)
+  tkadd(PecheTemporelle,"command",label="PÃ©riode 1 vs PÃ©riode 2", command = T1_T2_Peche.f)
+  tkadd(PecheTemporelle,"command",label="PÃ©riode 1 vs PÃ©riode 2 vs PÃ©riode 3", command = T1_T2_T3_Peche.f)  
+  tkadd(PecheTemporelle,"command",label="SÃ©rie Temporelle", command = Serie_Temporelle_Peche.f)
   # Menu deroulant de "ConservationTemporelle"   
-  tkadd(ConservationTemporelle,"command",label="Avant vs Après", command = Avant_Apres_Conservation.f)
-  tkadd(ConservationTemporelle,"command",label="T1 vs T2", command = T1_T2_Conservation.f)
-  tkadd(ConservationTemporelle,"command",label="T1 vs T2 vs T3", command = T1_T2_T3_Conservation.f)  
-  tkadd(ConservationTemporelle,"command",label="Série Temporelle", command = Serie_Temporelle_Conservation.f)  
+  tkadd(ConservationTemporelle,"command",label="Avant vs AprÃ¨s", command = Avant_Apres_Conservation.f)
+  tkadd(ConservationTemporelle,"command",label="PÃ©riode 1 vs PÃ©riode 2", command = T1_T2_Conservation.f)
+  tkadd(ConservationTemporelle,"command",label="PÃ©riode 1 vs PÃ©riode 2 vs PÃ©riode 3", command = T1_T2_T3_Conservation.f)  
+  tkadd(ConservationTemporelle,"command",label="SÃ©rie Temporelle", command = Serie_Temporelle_Conservation.f)  
 
 ##Deuxieme niveau de menu
   tkadd(Peche,"cascade",label="Analyse temporelle", menu=PecheTemporelle)
@@ -1258,7 +1258,7 @@ ConservationSpatiale <- tkmenu(topMenu,tearoff=FALSE)
   tkadd(Conservation,"cascade",label="Analyse spatiale", menu=ConservationSpatiale)
     
  # Menu deroulant de "Objectif"
-  tkadd(Objectif,"cascade",label="Pêche", menu = Peche) 
+  tkadd(Objectif,"cascade",label="PÃªche", menu = Peche) 
   tkadd(Objectif,"cascade",label="Conservation",menu = Conservation) 
  
 # Premier niveau de menu
